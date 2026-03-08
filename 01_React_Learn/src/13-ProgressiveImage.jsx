@@ -1,27 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
-const lazy = 'https://cdn.pixabay.com/photo/2017/09/08/17/05/elephant-2729413_150.jpg';
-const big =
-    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3M3wwfDF8c2VhcmNofDcwfHxuYXR1cmV8ZW58MHx8fHwxNjYwODg5MjM3&ixlib=rb-1.2.1&q=80&w=2000';
-    
-const ProgressiveImage = ({ lazy_image = lazy, big_image = big }) => {
-  
-    const [imgSrc, setImgSrc] = useState(lazy_image || big_image);
+const ProgressiveImage = ({ placeholder, src }) => {
+  const [imgSrc, setImgSrc] = useState(placeholder || src);
 
-    const customClass = lazy_image && imgSrc === lazy_image ? 'loading' : 'loaded';
+  const customClass = placeholder && imgSrc === placeholder ? 'loading' : 'loaded';
 
-    useEffect(() => {
-        const newImage = new Image();
-        newImage.src = big_image;
-        newImage.onload = () => {
-            setImgSrc(big_image);
-        };
-        // clean up
-        return () => {
-            newImage.onload = null;
-        };
-    }, [big_image]);
+  useEffect(() => {
+    const newImage = new Image();
+    newImage.src = src;
+    newImage.onload = () => {
+      setImgSrc(src);
+    };
+    // clean up
+    return () => {
+      newImage.onload = null;
+    };
+  }, [src]);
 
-    return <img src={imgSrc} className={customClass} width={500} />;
+  return <img src={imgSrc} className={customClass} width={500} alt='image' />;
 };
-export default ProgressiveImage;
+
+ProgressiveImage.propTypes = {
+  placeholder: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+};
+
+const Container = () => {
+  const lazy = 'https://cdn.pixabay.com/photo/2026/02/23/11/09/11-09-54-151_150.jpg';
+  const big = 'https://cdn.pixabay.com/photo/2026/02/23/11/09/11-09-54-151_1280.jpg';
+
+  return (
+    <div>
+      <ProgressiveImage src={big} placeholder={lazy} />
+    </div>
+  );
+};
+export default Container;

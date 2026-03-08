@@ -1,9 +1,10 @@
-import { useState } from "react";
-import {data} from './Data'
+import { useState } from 'react';
+import { data } from './Data';
+import PropTypes from 'prop-types';
 
 // Main Components
 function LowerState() {
-  const [people, setPeople] = useState(data);
+  const [people] = useState(data);
   const [count, setCount] = useState(0);
   return (
     <div onClick={() => setCount(count + 1)}>
@@ -14,9 +15,9 @@ function LowerState() {
 }
 export default LowerState;
 
-// Lists - map data 
+// Lists - map data
 const List = ({ people }) => {
-  console.log("Pass value")
+  console.log('Pass value');
   return (
     <div>
       {people.map((person) => {
@@ -25,13 +26,19 @@ const List = ({ people }) => {
     </div>
   );
 };
+List.propTypes = {
+  people: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })),
+};
 
 // Item - show data
 const Person = ({ name }) => {
-  console.log("render");
+  console.log('render', name);
   return (
     <div>
       <h4>{name}</h4>
     </div>
   );
+};
+Person.propTypes = {
+  name: PropTypes.string.isRequired,
 };

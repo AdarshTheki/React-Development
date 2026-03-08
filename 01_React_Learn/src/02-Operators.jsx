@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 function Operators() {
   // falsy
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   // truthy
-  const [name, setName] = useState("Adarsh");
-  const [user, setUser] = useState({ name: "Ayush" });
+  const [name, setName] = useState('Adarsh');
+  const [user, setUser] = useState({ name: 'Ayush' });
   const [isEdit, setIsEdit] = useState(true);
 
   return (
     <div>
-      <h2>{text || "Default Value"}</h2>
+      <h2>{text || 'Default Value'}</h2>
       {text && (
         <div>
           <h2>Whatever First Return</h2>
@@ -18,19 +19,23 @@ function Operators() {
         </div>
       )}
 
-      {user && <SomeOne naming={user.name}/>}
+      {user && <SomeOne naming={user.name} />}
 
-      <button onClick={()=>setIsEdit(!isEdit)}>{isEdit ? "Edit" : "Add"}</button>
+      <button onClick={() => setIsEdit(!isEdit)}>{isEdit ? 'Edit' : 'Add'}</button>
     </div>
   );
 }
 export default Operators;
 
-const SomeOne = ({ naming }) =>{
-  return(
+const SomeOne = ({ naming }) => {
+  return (
     <div>
       <h2>WhatEver Second Return</h2>
       <h2>{naming}</h2>
     </div>
-  )
-}
+  );
+};
+
+SomeOne.propTypes = {
+  naming: PropTypes.string.isRequired,
+};
